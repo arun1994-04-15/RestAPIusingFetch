@@ -1,3 +1,12 @@
+var body = document.body;
+
+var div = document.createElement("div")
+div.setAttribute("class","conatiner")
+
+var row = document.createElement("div")
+row.setAttribute("class","row")
+row.setAttribute("id","country")
+
 var data = fetch("https://restcountries.eu/rest/v2/all");
 
 data
@@ -15,31 +24,66 @@ function dispalycountries(obj) {
   var countries = document.getElementById("country");
 
   for (var i = 0; i < obj.length; i++) {
-    var card = `<div class="col-md-4 col-sm-6">
-        <div class="card-group" style="width:15rem" >
-          <img src="${obj[i].flag}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title" id="id1">${obj[i].name}</h5>
-            <p class="card-capital">Population: ${obj[i].population}</p>
-            <p class="card-capital">Capital: ${obj[i].capital}</p>
-            <p class="card-capital">Region: ${obj[i].region}</p>
-            <button onclick="weather(${obj[i].name})" class="btn btn-outline-danger"> Weather </button>
-          </div>
-        </div>
-      </div>`;
-    countries.innerHTML += card;
+
+    var column = document.createElement("div")
+column.setAttribute("class","col-md-4 col-sm-6")
+
+var card = document.createElement("div")
+card.setAttribute("class","card-group")
+card.style="width:15rem"
+
+var img = document.createElement("img")
+img.setAttribute("src","")
+img.setAttribute("class","card-img-top")
+img.innerText = `${obj[i].flag}`
+
+var cardbody = document.createElement("div")
+cardbody.setAttribute("class","card-body")
+
+var heading = document.createElement("h5")
+heading.setAttribute("class","card-title")
+heading.innerText =`${obj[i].name}`
+
+var population = document.createElement("p")
+population.setAttribute("class","card-pop")
+population.innerText = `${obj[i].population}`
+
+var capital = document.createElement("p")
+capital.setAttribute("class","card-capital")
+capital.innerText = `${obj[i].capital}`
+
+var region = document.createElement("p")
+region.setAttribute("class","card-region")
+region.innerText = `${obj[i].region}`
+
+
+var button = document.createElement("button")
+button.innerText ="Weather"
+button.setAttribute("class","btn btn-outline-danger")
+// button.addEventListener('click' () =>{
+//   alert("Weather")
+// })
+
+region.append(button)
+capital.append(region)
+population.append(capital)
+heading.append(population)
+cardbody.append(heading)
+img.append(cardbody)
+card.append(img)
+column.append(card)
+row.append(column)
+    
     
   }
+
+ 
+
 }
 
-function weather(countryname){
-  var data1 = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${countryname}&appid=0d33e53012116e5f0c14e4f77f0ccd0f`);
-  data1
-  .then(function (res) {
-    return res.json();
-  })
-  .then(function (obj1){
-    alert(obj1.weather[0].main)
-  })
-  }
+
+
+
+div.append(row)
+body.append(div)
 
